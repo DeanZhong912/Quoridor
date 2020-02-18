@@ -1,0 +1,115 @@
+#game_board {
+    width: 100%;
+    background: #47A4C9;
+    padding: 20px;
+    border-spacing: 0px;
+    box-shadow: 0px 0px 6px rgba(0,0,0,0.5);
+    border-radius: 4px;
+    border-collapse: separate;
+}
+
+body {
+    background: rgba(180, 179, 180, 0.3);
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    display: block;
+    margin: 8px;
+}
+
+.walls_v {
+    height: 43.3333px;
+    width: 24.6667px;
+    background: #969696;
+    cursor: pointer;
+}
+.walls_h {
+    height: 24.6667px;
+    background: #969696;
+    cursor: pointer;
+}
+.walls_s {
+    height: 24.6667px;
+    background: #969696;
+    cursor: pointer;
+}
+
+.tiles {
+    background: #fafafa;
+    box-shadow: 0px 0px 1px rgba(0,0,0,0.5);
+    border-radius: 2px;
+    height: 42.6667px;
+    width: 47.3333px;
+    cursor: pointer;
+}
+
+.walls_container {
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    width: 700px;
+}
+
+.walls_container > span {
+    font-size: 20px;
+}
+.walls_container > #p1_walls {
+    color: #008000;
+}
+.walls_container > #p2_walls {
+    color: #FF0000;
+    float: right;
+}
+
+.container {
+    width: 700px;
+    margin: 10px auto auto;
+    overflow: hidden;
+}
+
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+td {
+    display: table-cell;
+    vertical-align: inherit;
+}
+
+.invisible {
+    background: none;
+    box-shadow: none;
+    border: none;
+}
+
+.p1{
+    background: #fafafa url("./purple.png") !important; 
+    background-repeat:no-repeat !important;
+    background-position: center !important;
+    background-size: contain !important;
+}
+
+.p2{
+    background:  #fafafa  url("./yellow.png") !important; 
+    background-repeat:no-repeat !important;
+    background-position: center !important;
+    background-size: contain !important;
+}
+.glow {
+    background: rgba(192,255,244, 0.5) !important;
+}
+table {
+    display: table;
+    border-collapse: separate;
+    border-spacing: 2px;
+    border-color: grey;
+}
+
+@media screen and (max-device-width: 850){
+    #game_board{
+        width: 90%;
+    }
+}
