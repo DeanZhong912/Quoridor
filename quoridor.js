@@ -74,14 +74,14 @@ function init_board(){
         color:1,
         x:4,
         y:0,
-        walls:0
+        walls:10
         //id:0
     };
     players[1]={
         color:2,//玩家二
         x:4,
         y:8,
-        walls:0//使用过的墙的数量
+        walls:10//剩余墙的数量
         //id:1
     }
     console.log(players)

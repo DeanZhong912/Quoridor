@@ -171,9 +171,42 @@ function EventCancelNext(){
 
 //墙槽被点击
 function EventWallIsClick(){
-
+    TbDy.on("click","td[class^='walls']",function(){
+        id = $(this).attr('id');
+        w = id[0];  //w 表示墙
+        o = id[1];  //h 表示 横着 v 竖着
+        y = $(this)["data"]("y");
+        x = $(this)["data"]("x");
+        if (gameState==1) {
+            return 1;
+        };
+        //放置板
+        if (o=="h" && x<8){
+            console.log(currentplayer);
+            if(!playWall(x,y,currentplayer,2)){
+                console.log("No Play");
+                return 0;
+            };
+            doPlayWall(x,y,players[currentplayer],2);
+        };
+        if (o=="h" && x==8){
+        };
+        if (o=="v" && y<8){
+            if(!playWall(x,y,currentplayer,1)){
+                console.log("No Play");
+                return 0;
+            };
+            doPlayWall(x,y,players[currentplayer],1);
+        };
+        if (o=="v" && y==8){
+        };
+    });
 }
-
+function test4(){
+    EventMouseOnWalls();
+    EventWallIsClick();
+}
 //test1();
 //test2();
-test3();
+//test3();
+test4();

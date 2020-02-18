@@ -234,12 +234,16 @@ function getValidMove(plid){
 /************************************/
 function isValidWall(wallx,wally,c){
     //检查墙的坐标是否越界
-    if(wallx<0||wally<0||wallx>7||wally>7){return 0;}
+    if(wallx<0||wally<0||wallx>7||wally>7){
+        console.log("out of range");
+        return 0;
+    };
     if(walls[wally][wallx]>0||
         (c==1 && wallExists(wallx,wally-1,1))||
         (c==1 && wallExists(wallx,wally+1,1))||
         (c==2 && wallExists(wallx-1,wally,2))||
         (c==2 && wallExists(wallx+1,wally,2))){
+            console.log("wall Exists");
         return 0;
     };
     return 1;
@@ -266,28 +270,28 @@ function tryToReachOpponent(pl,ches){
     if(isValidMove(pl,plx,ply+plc)==1){//向对面方向可以移动
         templayer["x"]=plx;
         templayer["y"]=ply+plc;//templayer记录路径
-        if(!ches[ply+plc][plx]&& tryToReachOpponent(pl,ches)){//不是棋子所在
+        if(!ches[ply+plc][plx]&& tryToReachOpponent(templayer,ches)){//不是棋子所在
             return 1;
         };
     };
     if(isValidMove(pl,plx-1,ply)==1){//向左可以移动
         templayer["x"]=plx-1;
         templayer["y"]=ply;//templayer记录路径
-        if(!ches[ply][plx-1]&& tryToReachOpponent(pl,ches)){//不是棋子所在
+        if(!ches[ply][plx-1]&& tryToReachOpponent(templayer,ches)){//不是棋子所在
             return 1;
         };
     };
     if(isValidMove(pl,plx+1,ply)==1){//向右可以移动
         templayer["x"]=plx+1;
         templayer["y"]=ply;//templayer记录路径
-        if(!ches[ply][plx+1]&& tryToReachOpponent(pl,ches)){//不是棋子所在
+        if(!ches[ply][plx+1]&& tryToReachOpponent(templayer,ches)){//不是棋子所在
             return 1;
         };
     };
     if(isValidMove(pl,plx,ply-plc==1)){//背离对面方向可以移动
         templayer["x"]=plx;
         templayer["y"]=ply-plc;//templayer记录路径
-        if(!ches[ply-plc][plx] && tryToReachOpponent(pl,ches)){//不是棋子所在
+        if(!ches[ply-plc][plx] && tryToReachOpponent(templayer,ches)){//不是棋子所在
             return 1;
         };
     };
@@ -315,7 +319,7 @@ function checkValidBoard(wx,wy,c){
     players[1]["x"]=-1;//先撤下去
     players[1]["y"]=-1;
     //玩家一不能到对面
-    if(!tryToReachOpponentSide(players[0],Chess)){
+    if(!tryToReachOpponent(players[0],Chess)){
         players[1]["x"]=tempx;
         players[1]["y"]=tempy;
         return 0;
@@ -379,20 +383,25 @@ function doMove(pl,tx,ty){
 /************************************/
 //Func:逻辑上放墙
 //Param  槽的sx，sy   二维数组先y坐标后x坐标
-//       玩家标志 playid 1 玩家一 2 玩家二
+//       玩家标志 playid 0 玩家一 1 玩家二
 //       墙的横竖 c  竖1 横2
 //Return: 0 放置失败 1 放置成功
 /************************************/
 function playWall(sx,sy,playid,c){
     //如果玩家没有板了,或者槽的位置无效
-    if(players[playid-1]["walls"]<=0||isValidWall(sx,sy,c)){
+    if(players[playid]["walls"]<=0){
+        console.log("there is no wall left.");
+        return 0;
+    };
+    if(isValidWall(sx,sy,c)!=1){
+        console.log("wall is not valid.")
         return 0;
     };
     //填入墙的值
     walls[sy][sx]=c;
     //是否完全堵住对手
     if(checkValidBoard()){//没堵住
-        players[playid-1]["walls"]--;
+        players[playid]["walls"]--;
         walls_set++;
         return 1;//放置成功
     }else{//堵住了
