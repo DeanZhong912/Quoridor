@@ -8,23 +8,17 @@ var log = new Array(); //日志
 var gameState = 0;
 var moving = 0;
 var walling = 0;
+var selecting = 0;
 var Tbody=document.getElementById("gametb");
 //画棋盘
 function drawQuoridor(){
-    /*var wlc1=document.getElementById("p1_walls");
-    var wlc2=document.getElementById("p2_walls");
-    wlc1.append(size+1);
-    wlc2.append(size+1);
-    */
     $("#p" + players[0]["color"] + "_walls > .count")["text"](players[0]["walls"]);
     $("#p" + players[1]["color"] + "_walls > .count")["text"](players[1]["walls"]);
     for(var i=0;i<17;i++){
         var Line = document.createElement("tr");//添加行
         Tbody.appendChild(Line);
-        //console.log(i)
         for(var j=0;j<17;j++){
             //创建block对象标签
-            //console.log(j)
             var block = document.createElement("td");
             Line.appendChild(block);
             if(i%2!=0){//这是没有空格子的
@@ -39,7 +33,6 @@ function drawQuoridor(){
                     block.className="walls_h";//横着的空隙
                     block.id="wh"+(i-1)/2+"_"+j/2;
                     block.className+=" invisible";
-                    //console.log(i)
                     block.setAttribute("data-y",(i-1)/2);
                     block.setAttribute("data-x",j/2);
                 }
@@ -87,7 +80,6 @@ function init_board(){
         //id:1
     }
     drawQuoridor();
-    //console.log(players)
     //初始化墙
     for(var wl=0;wl<size;wl++){
         walls[wl]=new Array(size);
@@ -102,28 +94,5 @@ function init_board(){
 var currentplayer = 0;
 function changePlayer(){
     currentplayer = (currentplayer+1)%2;
-    console.log("轮到玩家"+(parseInt(currentplayer)+1)+"了");
-}
-
-//p1 p2 处理逻辑
-//紫色p1 优先
-function playerTurn(){
-    //p1棋子是否被选中
-    //被选中
-    //EventPieceIsSelect(players[1]);
-    //未被选中
-    //是否移动棋子
-    //EventWallIsClick();
-    //是否取消选中
-
-    //未被选中或者取消选中
-    //放墙
-
-    //放墙了或者移动了
-    //轮到p2
-}
-
-//主函数
-function main(){
-
+    addToLog("轮到 玩家"+(parseInt(currentplayer)+1)+" 行动了");
 }

@@ -77,6 +77,8 @@ body {
     border: 4px solid #60281e;
     background: #b35c44;
     padding: 10px;
+    color:white;
+    overflow-y:auto;
 }
 .ctrwindow2{
     position: absolute;
@@ -86,9 +88,10 @@ body {
     border: 4px solid #60281e;
     background: #b35c44;
     padding: 10px;
+    color:white;
 }
 .cwtitle{
-    color:yellow;
+    color:black;
 }
 
 tbody {

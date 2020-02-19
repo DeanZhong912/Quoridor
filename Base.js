@@ -15,21 +15,15 @@ function wallExists(wx,wy,z){
 }
 /************************************/
 /*Func:添加到日志中/
-/*Param: pl 玩家信息 nx ny移动坐标 direction 坐标
+/*Param: str 信息
 /*Return: 添加成功返回1*/
 /************************************/
-function addToLog(pl,nx,ny,direction){
-    log.push({
-        player:pl,
-        x:nx,
-        y:ny,
-        orientation:direction
-    });
+function addToLog(str){
+    log.push(str);
+    console.log(str);
+    logToWindow();
     return 1;
 }
-//测试
-//addToLog(players[0],1,1,0);
-//console.log(log);
 
 /************************************/
 //Func:判断胜负
@@ -38,11 +32,9 @@ function addToLog(pl,nx,ny,direction){
 /************************************/
 function isWinner(pl){
     if(pl["color"]==1&&pl["y"]==8){
-        //console.log("p1到达了对岸");
         return 1;
     }else{
         if(pl["color"]==2&&pl["y"]==0){
-            //console.log("p2到达了对岸");
             return 2;
         };
     };
@@ -104,7 +96,6 @@ function isValidMove(pl,x,y){
     }else{
         if(distance==2&& (pre_x==x || pre_y==y)){//上下左右移动两个距离
             var mid_x = (pre_x+x)/2,mid_y = (pre_y+y)/2;
-            //console.log(mid_y);
             if(!((mid_x==players[1]["x"]&&mid_y==players[1]["y"])||(mid_x==players[0]["x"]&&mid_y==players[0]["y"]))){
                 return 0;//中间不是对方玩家的棋子
             };
@@ -186,11 +177,9 @@ function getValidMove(plid){
     if(1==isValidMove(pler,plx+1,ply)){//右
         addToNext(plx+1,ply);
     };
-    //console.log(postion);
     if(1==isValidMove(pler,plx-1,ply)){//左
         addToNext(plx-1,ply);
     };
-    //console.log(postion);
     if(1==isValidMove(pler,plx,ply+1)){//下
         addToNext(plx,ply+1);
     };
@@ -205,7 +194,6 @@ function getValidMove(plid){
         addToNext(plx-2,ply);
     };
     if(1==isValidMove(pler,plx,ply+2)){//下
-        console.log("testmove");
         addToNext(plx,ply+2);
     };
     if(1==isValidMove(pler,plx,ply-2)){//上
@@ -235,7 +223,7 @@ function getValidMove(plid){
 function isValidWall(wallx,wally,c){
     //检查墙的坐标是否越界
     if(wallx<0||wally<0||wallx>7||wally>7){
-        console.log("out of range");
+        addToLog("越界了");
         return 0;
     };
     if(walls[wally][wallx]>0||
@@ -243,7 +231,7 @@ function isValidWall(wallx,wally,c){
         (c==1 && wallExists(wallx,wally+1,1))||
         (c==2 && wallExists(wallx-1,wally,2))||
         (c==2 && wallExists(wallx+1,wally,2))){
-            console.log("wall Exists");
+            addToLog("墙存在");
         return 0;
     };
     return 1;
@@ -256,8 +244,6 @@ function isValidWall(wallx,wally,c){
 function tryToReachOpponent(pl,ches){
     //pl获胜
     if(isWinner(pl)==pl["color"]){
-        console.log("玩家"+pl["color"]+"可以到达");
-        console.log(ches);
         return 1;
     };
     var templayer = {
@@ -359,13 +345,10 @@ function checkValidBoard(){
 //Return:1 移动成功 0 失败
 /************************************/
 function playMove(plid,tx,ty){
-    //console.log("playmove Test");
-    //console.log(plid);
     if(isValidMove(players[plid],tx,ty)==1){//检查是否能移动
-        //console.log("tess1");
         players[plid]["x"]=tx;
         players[plid]["y"]=ty;
-        addToLog(players[plid-1],tx,ty,0);
+        //addToLog(players[plid-1],tx,ty,0);
         return 1;
     };
     return 0;
@@ -376,12 +359,9 @@ function playMove(plid,tx,ty){
 //Return:1 设置成功
 /************************************/
 function doMove(pl,tx,ty){
-    //console.log("doMove Test");
-    //console.log(pl["color"]);
     $(".p" + pl["color"]).removeClass("p"+pl["color"]);
     $("#t" + ty +"_"+ tx).addClass("p"+pl["color"]);
     $(".glow")["removeClass"]("glow");
-    //console.log("p"+pl["color"]+ " " +tx + " " +ty);
     moving = 1;
     Next = [];
     return 1;
@@ -396,11 +376,10 @@ function doMove(pl,tx,ty){
 function playWall(sx,sy,playid,c){
     //如果玩家没有板了,或者槽的位置无效
     if(players[playid]["walls"]<=0){
-        console.log("there is no wall left.");
+        addToLog("玩家"+(parseInt(playid)+1)+"没墙了");
         return 0;
     };
     if(isValidWall(sx,sy,c)!=1){
-        console.log("wall is not valid.")
         return 0;
     };
     //填入墙的值
