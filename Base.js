@@ -5,7 +5,7 @@
 //Return:返回 1 存在   0 不存在 
 /************************************/
 function wallExists(wx,wy,z){
-    if(wx<0||wy<0||wx>=7||wy>=7){
+    if(wx<0||wy<0||wx>=8||wy>=8){
         return 0;
     };
     if(walls[wy][wx]==z){
@@ -38,12 +38,12 @@ function addToLog(pl,nx,ny,direction){
 /************************************/
 function isWinner(pl){
     if(pl["color"]==1&&pl["y"]==8){
-        console.log("p1到达了对岸");
+        //console.log("p1到达了对岸");
         return 1;
     }else{
         if(pl["color"]==2&&pl["y"]==0){
-            console.log("p2到达了对岸");
-            return 1;
+            //console.log("p2到达了对岸");
+            return 2;
         };
     };
     return 0;
@@ -85,7 +85,7 @@ function thereIsWall(x1,y1,x2,y2){
 //返回值 0，2 无效   1有效
 /************************************/
 function isValidMove(pl,x,y){
-    if(x<0||y<0||x>=9||y>=9){
+    if(x<0||y<0||x>8||y>8){
         return 0;//无效 越界
     };
     if((players[0]["x"]==x&&players[0]["y"]==y)||(players[1]["x"]==x&&players[1]["y"]==y)){
@@ -255,7 +255,11 @@ function isValidWall(wallx,wally,c){
 /************************************/
 function tryToReachOpponent(pl,ches){
     //pl获胜
-    if(isWinner(pl)){return 1};
+    if(isWinner(pl)==pl["color"]){
+        console.log("玩家"+pl["color"]+"可以到达");
+        console.log(ches);
+        return 1;
+    };
     var templayer = {
         color:pl["color"],
         x:pl["x"],
@@ -303,7 +307,7 @@ function tryToReachOpponent(pl,ches){
 /* Param：（wx，wy，c）墙 位置 状态    */
 /* Return： 0 不可以放  1 可以放       */
 /*************************************/
-function checkValidBoard(wx,wy,c){
+function checkValidBoard(){
     //申请棋盘大小9X9的二维数组
     var Chess = new Array();
     var i,j,tempx,tempy;
@@ -313,13 +317,14 @@ function checkValidBoard(wx,wy,c){
             Chess[i][j]=0;
         };
     };
+    
     //把玩家的棋子先撤下去，看能否走到对岸
     tempx = players[1]["x"];
     tempy = players[1]["y"];
     players[1]["x"]=-1;//先撤下去
     players[1]["y"]=-1;
     //玩家一不能到对面
-    if(!tryToReachOpponent(players[0],Chess)){
+    if(tryToReachOpponent(players[0],Chess)!=1){
         players[1]["x"]=tempx;
         players[1]["y"]=tempy;
         return 0;
@@ -327,6 +332,7 @@ function checkValidBoard(wx,wy,c){
     //重置棋盘
     players[1]["x"]=tempx;
     players[1]["y"]=tempy;
+
     for(i=0;i<size;i++){
         for(j=0;j<size;j++){
             Chess[i][j]=0;
@@ -337,7 +343,7 @@ function checkValidBoard(wx,wy,c){
     players[0]["x"]=-1;
     players[0]["y"]=-1;
     //玩家二不能到达对面
-    if(!tryToReachOpponent(players[1],Chess)){
+    if(tryToReachOpponent(players[1],Chess)!=1){
         players[0]["x"]=tempx;
         players[0]["y"]=tempy;
         return 0;
@@ -354,9 +360,9 @@ function checkValidBoard(wx,wy,c){
 /************************************/
 function playMove(plid,tx,ty){
     //console.log("playmove Test");
-    console.log(plid);
+    //console.log(plid);
     if(isValidMove(players[plid],tx,ty)==1){//检查是否能移动
-        console.log("tess1");
+        //console.log("tess1");
         players[plid]["x"]=tx;
         players[plid]["y"]=ty;
         addToLog(players[plid-1],tx,ty,0);
@@ -370,12 +376,12 @@ function playMove(plid,tx,ty){
 //Return:1 设置成功
 /************************************/
 function doMove(pl,tx,ty){
-    console.log("doMove Test");
-    console.log(pl["color"]);
+    //console.log("doMove Test");
+    //console.log(pl["color"]);
     $(".p" + pl["color"]).removeClass("p"+pl["color"]);
     $("#t" + ty +"_"+ tx).addClass("p"+pl["color"]);
     $(".glow")["removeClass"]("glow");
-    console.log("p"+pl["color"]+ " " +tx + " " +ty);
+    //console.log("p"+pl["color"]+ " " +tx + " " +ty);
     moving = 1;
     Next = [];
     return 1;
@@ -400,14 +406,14 @@ function playWall(sx,sy,playid,c){
     //填入墙的值
     walls[sy][sx]=c;
     //是否完全堵住对手
-    if(checkValidBoard()){//没堵住
+    if(checkValidBoard()==1){//没堵住
         players[playid]["walls"]--;
         walls_set++;
         return 1;//放置成功
     }else{//堵住了
         walls[sy][sx]=0;
+        return 0;
     };
-    return 0;
 }
 /************************************/
 //Func:表现上放墙

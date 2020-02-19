@@ -34,7 +34,7 @@ function EventMouseOnWalls(){
             //检查是否有其他障碍
             //console.log("这是横墙");
             if ($("#wh" + y +"_" + (parseInt(x) + 1))["hasClass"]("played") || $("#sl" + y +"_"+ parseInt(x))["hasClass"]("played")) {
-                console.log("不能放了");
+                //console.log("不能放了");
                 return 0;
             };
             //console.log("这里能放");
@@ -49,7 +49,7 @@ function EventMouseOnWalls(){
             //检查是否有障碍
             //console.log("这是竖墙");
             if ($("#wv" + (parseInt(y) + 1)+"_" + x)["hasClass"]("played") || $("#sl" + y +"_"+ parseInt(x))["hasClass"]("played")) {
-                console.log("不能放了");
+                //console.log("不能放了");
                 return 0;
             };
             //console.log("这里能放");
@@ -63,7 +63,7 @@ function EventMouseOnWalls(){
         if (o=="v" && y==8){
             //console.log("这是竖着的边界");
             if ($("#wv" + (parseInt(y) - 1)+"_" + x)["hasClass"]("played") || $("#sl" + (parseInt(y) - 1) +"_"+ parseInt(x))["hasClass"]("played")) {
-                console.log("不能放了");
+                //console.log("不能放了");
                 return 0;
             };
             $(this).toggleClass("invisible");
@@ -74,7 +74,7 @@ function EventMouseOnWalls(){
         if (o=="h" && x==8){
             //console.log("这是横着的边界");
             if ($("#wh" + y +"_" + (parseInt(x) - 1))["hasClass"]("played") || $("#sl" + y +"_"+ (parseInt(x)-1))["hasClass"]("played")) {
-                console.log("不能放了");
+                //console.log("不能放了");
                 return 0;
             };
             $(this).toggleClass("invisible");
@@ -89,9 +89,6 @@ function EventMouseOnWalls(){
         //console.log(test);
     });
 }
-function test1(){
-    EventMouseOnWalls();
-}
 /************************************/
 /*Func:监测是否有棋子被选中，用于移动
 /************************************/
@@ -104,7 +101,12 @@ function EventPieceIsSelect(){
         //周围没有对方棋子
         //获取下一步可能的位置
         plid = SelectPlayer(x,y);
+        var templayer = SelectPlayer(x,y);
+        if(templayer!=currentplayer){
+            return 0;
+        };
         currentplayer = SelectPlayer(x,y);
+
         //console.log(plid);
         getValidMove(plid+1);
         //console.log(Next);
@@ -117,10 +119,8 @@ function EventPieceIsSelect(){
         //console.log(y);
         //console.log(x);
         ary.stopPropagation();
+        console.log("玩家"+ (parseInt(currentplayer)+1)+"选中了棋子");
     });
-}
-function test2(){
-    EventPieceIsSelect();
 }
 //下一步被点击
 function EventNextIsClick(){
@@ -131,7 +131,7 @@ function EventNextIsClick(){
         //获取之前的坐标
         //plid = SelectPlayer(x,y); //0为玩家1
         pl = players[currentplayer];
-        console.log(currentplayer);
+        //console.log(currentplayer);
         prev_y = pl["y"];
         prev_x = pl["x"];
         //判断是否已经赢了
@@ -140,35 +140,49 @@ function EventNextIsClick(){
         };
         //判断能否移动
         if(!playMove(currentplayer,x,y)){
-            console.log("tess");
+            //console.log("tess");
             return 0;
         };
         //执行移动操作，还原高亮的位置
         doMove(pl,pl["x"],pl["y"]);
-        console.log("player"+pl["color"]+"移动到了"+y+" "+x);
+        console.log("player"+pl["color"]+"移动到了"+x+" "+y);
         //判断是否赢了
         if(isWinner(pl)==1){
             alert("Player"+pl["color"]+"赢了")
             gameState = 1;
         };
         //轮到下一个玩家了
-
+        changePlayer();
+        //console.log("轮到玩家"+(parseInt(currentplayer)+1)+"行动");
     });
 }
-function test3(){
-    EventPieceIsSelect();
-    EventNextIsClick();
-    EventCancelNext();
-}
+
 //取消选中下一步，点击页面其他部位
 function EventCancelNext(){
     $("html")["on"]("click", "body", function() {
         $(".glow")["removeClass"]("glow");
         Next = [];
+        if(moving!=1&&walling!=1){
+            console.log("玩家"+(parseInt(currentplayer)+1)+"取消了选中");
+        };
         moving = 0;
+        walling = 0;
     });
 }
-
+function putWall(wx,wy,plid,wc){
+    //console.log(plid);
+    if(playWall(wx,wy,plid,wc)==0){
+        console.log("No Play");
+        return 0;
+    };
+    doPlayWall(wx,wy,players[plid],wc);
+    var wstring="竖";
+    if(wc==2){
+        wstring="横";
+    };
+    console.log("玩家"+players[plid]["color"]+"在"+wx+" "+wy+"放了一堵"+wstring+"墙");
+    walling=1;
+}
 //墙槽被点击
 function EventWallIsClick(){
     TbDy.on("click","td[class^='walls']",function(){
@@ -182,31 +196,21 @@ function EventWallIsClick(){
         };
         //放置板
         if (o=="h" && x<8){
-            console.log(currentplayer);
-            if(!playWall(x,y,currentplayer,2)){
-                console.log("No Play");
-                return 0;
-            };
-            doPlayWall(x,y,players[currentplayer],2);
+            putWall(x,y,currentplayer,2);
         };
+        
         if (o=="h" && x==8){
+            putWall(x-1,y,currentplayer,2);
         };
+        
         if (o=="v" && y<8){
-            if(!playWall(x,y,currentplayer,1)){
-                console.log("No Play");
-                return 0;
-            };
-            doPlayWall(x,y,players[currentplayer],1);
+            putWall(x,y,currentplayer,1);
         };
         if (o=="v" && y==8){
+            putWall(x,y-1,currentplayer,1);
         };
+        
+        $("#p"+(parseInt(currentplayer)+1)+"_walls > .count")["text"](players[currentplayer]["walls"]);
+        changePlayer();
     });
 }
-function test4(){
-    EventMouseOnWalls();
-    EventWallIsClick();
-}
-//test1();
-//test2();
-//test3();
-test4();

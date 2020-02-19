@@ -7,13 +7,17 @@ var walls_set = 0;  //放置了的墙
 var log = new Array(); //日志
 var gameState = 0;
 var moving = 0;
+var walling = 0;
 var Tbody=document.getElementById("gametb");
 //画棋盘
 function drawQuoridor(){
-    var wlc1=document.getElementById("p1_walls");
+    /*var wlc1=document.getElementById("p1_walls");
     var wlc2=document.getElementById("p2_walls");
     wlc1.append(size+1);
     wlc2.append(size+1);
+    */
+    $("#p" + players[0]["color"] + "_walls > .count")["text"](players[0]["walls"]);
+    $("#p" + players[1]["color"] + "_walls > .count")["text"](players[1]["walls"]);
     for(var i=0;i<17;i++){
         var Line = document.createElement("tr");//添加行
         Tbody.appendChild(Line);
@@ -68,8 +72,6 @@ function drawQuoridor(){
 
 //初始化
 function init_board(){
-    //初始化棋盘
-    drawQuoridor()
     players[0]={
         color:1,
         x:4,
@@ -84,7 +86,8 @@ function init_board(){
         walls:10//剩余墙的数量
         //id:1
     }
-    console.log(players)
+    drawQuoridor();
+    //console.log(players)
     //初始化墙
     for(var wl=0;wl<size;wl++){
         walls[wl]=new Array(size);
@@ -92,14 +95,14 @@ function init_board(){
             walls[wl][wle]=0;
         }
     }
-
+    currentplayer=0;
 }
 
 //默认player为玩家1 开始
 var currentplayer = 0;
 function changePlayer(){
     currentplayer = (currentplayer+1)%2;
-    console.console("轮到玩家"+currentplayer+"了");
+    console.log("轮到玩家"+(parseInt(currentplayer)+1)+"了");
 }
 
 //p1 p2 处理逻辑
@@ -124,8 +127,3 @@ function playerTurn(){
 function main(){
 
 }
-
-
-init_board()
-//EventMouseOnWalls()
-//playerTurn()

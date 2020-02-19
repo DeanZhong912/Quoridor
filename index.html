@@ -12,10 +12,17 @@
     <h1><center>Quoridor游戏</center></h1>
     <div class="container">
         <div class="walls_container">
-            <span id="p1_walls">玩家一墙数：</span><span class="count"></span></span>
-            <span id="p2_walls">玩家二墙数： <span class="count"></span></span>
+            <span id="p1_walls">玩家一墙数：<span class="count"></span></span>
+            <span id="p2_walls">玩家二墙数：<span class="count"></span></span>
         </div>
         <table id="game_board" id="game_board">
+            <div class="ctrwindow2">
+                <div class="cwtitle"><center>游戏规则</center></div>
+                <p>1.Quoridor在具有81个正方形空间（9x9）的游戏板上进行游戏，每个玩家从10面墙开始。</p>
+                <p>2.玩家一控制的紫色棋子先移动，然后玩家一与玩家二交替行动，玩家可以选择移动棋子或者放置墙板，但是不能完全围住对方棋子。</p>
+                <p>3.玩家棋子不能移动放置墙的方向，当棋子相邻时可以跳过对方棋子。</p>
+                <p>4.先到达对面的玩家获胜。</p>
+            </div>
             <tbody id="gametb">
                 
             </tbody>
@@ -29,6 +36,7 @@
     <script src="Base.js"></script>
     <script src="EventProcess.js"></script>
     <script src="ctrWindow.js"></script>
+    <script src="onevsone.js"></script>
     <a href="./gobang/gobang.html"><center>游戏还没写好，先去下五子棋吧</center></a>
 </body>
 </html>
