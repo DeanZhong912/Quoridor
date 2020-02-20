@@ -1,43 +1,48 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <link rel="icon" type="image/jpg" sizes="144x144" href="logo.jpg"/>
-    <meta charset="UTF-8">
-    <link type="text/css" rel="stylesheet"  href="css/style.css">
     <title>步步围营</title>
-    <script src="jquery-1.11.3.min.js"></script>
-	<script src="jq.js"></script>
+    <meta charset="utf-8">
+    <link rel="icon" type="image/jpg" sizes="144x144" href="static/ChessBoardStyle/logo.jpg"/>
+    <link type="text/css" rel="stylesheet"  href="static/ChessBoardStyle/css/style.css">
+    <script src="static/js/jquery-1.11.3.min.js"></script>
+	<script src="static/js/jquery-migrate-1.2.1.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <h1><center>Quoridor游戏</center></h1>
+    <h1><center>步步围营</center></h1>
     <div class="container">
         <div class="walls_container">
-            <span id="p1_walls">玩家一墙数：<span class="count"></span></span>
-            <span id="p2_walls">玩家二墙数：<span class="count"></span></span>
+            <span id="p1_walls">玩家一墙：<span class="count"></span></span>
+            <span id="p2_walls">玩家二墙：<span class="count"></span></span>
         </div>
         <table id="game_board" id="game_board">
             <div class="ctrwindow2">
-                <div class="cwtitle"><center>游戏规则</center></div>
-                <p>1.Quoridor在具有81个正方形空间（9x9）的游戏板上进行游戏，每个玩家从10面墙开始。</p>
-                <p>2.玩家一控制的紫色棋子先移动，然后玩家一与玩家二交替行动，玩家可以选择移动棋子或者放置墙板，但是不能完全围住对方棋子。</p>
-                <p>3.玩家棋子不能移动放置墙的方向，当棋子相邻时可以跳过对方棋子。</p>
-                <p>4.先到达对面的玩家获胜。</p>
-                <button type="button" onclick="Restart()">重新开始</button>
+                <div class="cwtitle"><h3><center>游戏规则</center></h3></div>
+                <p>1.Quoridor在具有81个正方形空间（9x9）的游戏板上进行游戏，每个玩家从10面墙开始。
+                </br></br>2.玩家一控制的紫色棋子先移动，然后玩家一与玩家二交替行动，玩家可以选择移动棋子或者放置墙板，但是不能完全围住对方棋子。
+            </br></br>3.玩家棋子不能移动放置墙的方向，当棋子相邻时可以跳过对方棋子。
+        </br></br>4.先到达对面的玩家获胜。</p>
+                <center><button class="btn resetbtn" onclick="Restart()">重新开始</button></center>
             </div>
             <tbody id="gametb">
                 
             </tbody>
-            <div class="ctrwindow" id="winctr">
-                <div class="cwtitle"><center>控制窗口</center></div>
-                
+            <div class="ctrwindow">
+                <div class="cwtitle"><center><h3>控制窗口</h3></center></div>
+                <div class="shadow" id="winctr">
+
+                </div>
             </div>
         </table>
     </div>
-    <script src="quoridor.js"></script>
-    <script src="Base.js"></script>
-    <script src="EventProcess.js"></script>
-    <script src="ctrWindow.js"></script>
-    <script src="onevsone.js"></script>
+    <h4> <center> Created By <a href="https://github.com/DeanZhong912">Dean Zhong</a></center> </h4>
+    <h4> <center> Thank For Spyros Avlonits && Giannos Chatziagapis's<a href="http://quoridor.di.uoa.gr/" target="_blank"> Quoridor Online</a></center> </h4>
+    
+    <script src="GameJS/quoridor.js"></script>
+    <script src="GameJS/Base.js"></script>
+    <script src="GameJS/EventProcess.js"></script>
+    <script src="GameJS/ctrWindow.js"></script>
+    <script src="GameJS/onevsone.js"></script>
 </body>
 </html>
