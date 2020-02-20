@@ -364,6 +364,7 @@ function doMove(pl,tx,ty){
     $(".glow")["removeClass"]("glow");
     moving = 1;
     Next = [];
+    acted=1;
     return 1;
 }
 /************************************/
@@ -419,6 +420,7 @@ function doPlayWall(sx,sy,pl,c){
         $("#wh"+sy+"_"+(sx+1)).addClass("played");
     };
     $("#p" + pl["color"] + "_walls > .count")["text"](pl["walls"]);
+    acted=1;
     return 1;
 }
 /***************************/

@@ -9,6 +9,7 @@ var gameState = 0;
 var moving = 0;
 var walling = 0;
 var selecting = 0;
+var acted = 0;
 var Tbody=document.getElementById("gametb");
 //画棋盘
 function drawQuoridor(){
@@ -95,4 +96,5 @@ var currentplayer = 0;
 function changePlayer(){
     currentplayer = (currentplayer+1)%2;
     addToLog("轮到 玩家"+(parseInt(currentplayer)+1)+" 行动了");
+    acted=0;
 }

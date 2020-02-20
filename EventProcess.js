@@ -126,7 +126,9 @@ function EventNextIsClick(){
             gameState = 1;
         };
         //轮到下一个玩家了
-        changePlayer();
+        if(acted==1){ 
+            changePlayer();
+        };
     });
 }
 
@@ -191,6 +193,8 @@ function EventWallIsClick(){
         };
         
         $("#p"+(parseInt(currentplayer)+1)+"_walls > .count")["text"](players[currentplayer]["walls"]);
-        changePlayer();
+        if(acted==1){
+            changePlayer();
+        };
     });
 }
