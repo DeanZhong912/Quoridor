@@ -42,7 +42,8 @@ function backToPre(){
     console.log("返回上一步");
     if(walled==1){
         console.log("上一步放了墙");
-        players[currentplayer]["wall"]++;
+        players[currentplayer]["walls"] = players[currentplayer]["walls"]+1;
+        console.log(players[currentplayer]["walls"]);
         walls[regArr["sy"]][regArr["sx"]]=0;
         doPlayWall(regArr["sx"],regArr["sy"],players[currentplayer],regArr["sc"]+2);
     };
