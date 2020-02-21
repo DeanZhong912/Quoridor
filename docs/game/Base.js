@@ -363,6 +363,7 @@ function doMove(pl,tx,ty){
     $("#t" + ty +"_"+ tx).addClass("p"+pl["color"]);
     $(".glow")["removeClass"]("glow");
     moving = 1;
+    moved = 1;
     Next = [];
     acted=1;
     return 1;
@@ -399,7 +400,7 @@ function playWall(sx,sy,playid,c){
 //Func:表现上放墙
 //Param  槽的sx，sy  
 //       玩家信息 pl
-//       墙的横竖 c  竖1 横2
+//       墙的横竖 c  竖1 横2 取消放置 竖3 横4
 //Return: 0 放置失败 1 放置成功
 /************************************/
 function doPlayWall(sx,sy,pl,c){
@@ -408,7 +409,7 @@ function doPlayWall(sx,sy,pl,c){
         $("#sl"+sy+"_"+sx).addClass("played");
         $("#wv"+sy+"_"+sx).removeClass("invisible");
         $("#wv"+sy+"_"+sx).addClass("played");
-        $("#wv"+(sy+1)+"_"+sx).removeClass("invisble");
+        $("#wv"+(sy+1)+"_"+sx).removeClass("invisible");
         $("#wv"+(sy+1)+"_"+sx).addClass("played");
     };
     if(c==2){//横着放的
@@ -416,8 +417,24 @@ function doPlayWall(sx,sy,pl,c){
         $("#sl"+sy+"_"+sx).addClass("played");
         $("#wh"+sy+"_"+sx).removeClass("invisible");
         $("#wh"+sy+"_"+sx).addClass("played");
-        $("#wh"+sy+"_"+(sx+1)).removeClass("invisble");
+        $("#wh"+sy+"_"+(sx+1)).removeClass("invisible");
         $("#wh"+sy+"_"+(sx+1)).addClass("played");
+    };
+    if(c==3){//取消竖着放的
+        $("#sl"+sy+"_"+sx).removeClass("played");
+        $("#sl"+sy+"_"+sx).addClass("invisible");
+        $("#wv"+sy+"_"+sx).removeClass("played");
+        $("#wv"+sy+"_"+sx).addClass("invisible");
+        $("#wv"+(sy+1)+"_"+sx).removeClass("played");
+        $("#wv"+(sy+1)+"_"+sx).addClass("invisible");
+    };
+    if(c==4){//取消横着放的
+        $("#sl"+sy+"_"+sx).removeClass("played");
+        $("#sl"+sy+"_"+sx).addClass("invisible");
+        $("#wh"+sy+"_"+sx).removeClass("played");
+        $("#wh"+sy+"_"+sx).addClass("invisible");
+        $("#wh"+sy+"_"+(sx+1)).removeClass("played");
+        $("#wh"+sy+"_"+(sx+1)).addClass("invisible");
     };
     $("#p" + pl["color"] + "_walls > .count")["text"](pl["walls"]);
     acted=1;

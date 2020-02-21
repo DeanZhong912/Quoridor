@@ -6,10 +6,17 @@ var walls = new Array(size+1);
 var walls_set = 0;  //放置了的墙
 var log = new Array(); //日志
 var gameState = 0;
+//游戏逻辑信号量
 var moving = 0;
 var walling = 0;
 var selecting = 0;
 var acted = 0;
+//悔棋信号量
+var regret = 0;
+var done=0;
+var moved=0;
+var walled=0;
+
 var Tbody=document.getElementById("gametb");
 //画棋盘
 function drawQuoridor(){
@@ -95,6 +102,8 @@ function init_board(){
 var currentplayer = 0;
 function changePlayer(){
     currentplayer = (currentplayer+1)%2;
-    addToLog("轮到 玩家"+(parseInt(currentplayer)+1)+" 行动了");
+    if(regret==0){
+        addToLog("轮到 玩家"+(parseInt(currentplayer)+1)+" 行动了");
+    };
     acted=0;
 }

@@ -75,7 +75,6 @@ body {
     background: #b4b4b4;
     padding: 10px;
     color:black;
-    overflow-y:auto;
 }
 .ctrwindow2{
     position: absolute;
@@ -92,6 +91,7 @@ body {
     background-color: #fafafa;
     color: black;
     height: 540px;
+    overflow-y:auto;
 }
 
 .cwtitle{
@@ -120,7 +120,20 @@ body {
     color: #fff;
     background-color: #007bff;
     border-color: #007bff;
+    position: absolute;
+    left: 20px;
+    bottom: 40px;
 }
+
+.regretbtn{
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    position: absolute;
+    right: 20px;
+    bottom: 40px;
+}
+
 
 tbody {
     display: table-row-group;

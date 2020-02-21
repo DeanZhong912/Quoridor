@@ -83,9 +83,16 @@ function EventPieceIsSelect(){
         //判断周围周围是否可移动，若可移动则高亮
         //周围没有对方棋子
         //获取下一步可能的位置
+        //console.log(x+" "+y);
         plid = SelectPlayer(x,y);
+        //console.log("test"+plid);
         var templayer = SelectPlayer(x,y);
         if(templayer!=currentplayer){
+            //if(regflag==0){
+              //  return 0;
+            //};
+            //console.log("test temp"+templayer);
+            //console.log("test curr"+currentplayer);
             return 0;
         };
         currentplayer = SelectPlayer(x,y);
@@ -118,7 +125,13 @@ function EventNextIsClick(){
             return 0;
         };
         //执行移动操作，还原高亮的位置
+        regArr["tx"]=prev_x;
+        regArr["ty"]=prev_y;
         doMove(pl,pl["x"],pl["y"]);
+        if(walled==1){
+            walled=0;
+        };
+        done=1;
         addToLog("玩家"+pl["color"]+" 移动到了 "+x+","+y);
         //判断是否赢了
         if(isWinner(pl)>0){
@@ -163,7 +176,11 @@ function putWall(wx,wy,plid,wc){
         wstring="横";
     };
     addToLog("玩家"+players[plid]["color"]+"在 "+wx+","+wy+" 放了一堵 "+wstring+" 墙");
+    regArr["sx"]=wx;
+    regArr["sy"]=wy;
+    regArr["sc"]=wc;
     walling=1;
+    walled=1;
 }
 //墙槽被点击
 function EventWallIsClick(){
@@ -193,6 +210,10 @@ function EventWallIsClick(){
         };
         
         $("#p"+(parseInt(currentplayer)+1)+"_walls > .count")["text"](players[currentplayer]["walls"]);
+        done=1;
+        if(moved==1){
+            moved=0;
+        };
         if(acted==1){
             changePlayer();
         };
